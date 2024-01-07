@@ -1,9 +1,20 @@
+import { doc } from "prettier";
 import React from "react";
 
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
+
+  function handleEscape(event) {
+    if (event.key === "Escape") {
+      setToasts([]);
+    }
+  }
+
+  React.useEffect(() => {
+    document.addEventListener("keydown", (e) => handleEscape(e));
+  });
 
   function createToast(variant, message) {
     const newToast = {
